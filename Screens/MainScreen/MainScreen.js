@@ -1,0 +1,58 @@
+import { StyleSheet, View, ScrollView } from "react-native";
+import React from "react";
+import MainHeader from "../../components/MainHeader";
+import { Attraction, TopPlaces } from "../../assets/data/dummy-data";
+import TopPlacesOverlay from "../../components/TopPlacesOverlay";
+import TopPlacesCarosel from "../../components/TopPlacesCarosel";
+import RestPlace from "../../components/RestPlace";
+import AttractionList from "../../components/AttractionList";
+
+function MainScreen({ navigation }) {
+  function renderTopDestination(itemData) {
+    function pressHandeler() {
+      navigation.navigate("detailScreen", {
+        trip: itemData.item,
+      });
+    }
+    return (
+      <TopPlacesOverlay
+        onPress={pressHandeler}
+        id={itemData.item.id}
+        image={itemData.item.image}
+        title={itemData.item.title}
+      />
+    );
+  }
+
+  function pressHandelerHotel() {
+    navigation.navigate("hotel");
+  }
+
+  function pressHandelerRestaurent() {
+    navigation.navigate("restaurent");
+  }
+
+  return (
+    <View style={style.mainConatiner}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <MainHeader title="TOP DESTINATION" />
+        <TopPlacesCarosel list={TopPlaces} renderItem={renderTopDestination} />
+        <RestPlace
+          onPress1={pressHandelerHotel}
+          onPress2={pressHandelerRestaurent}
+        />
+        <MainHeader title="POPULAR TRIPS" />
+        <AttractionList list={Attraction} />
+      </ScrollView>
+    </View>
+  );
+}
+
+export default MainScreen;
+
+const style = StyleSheet.create({
+  mainConatiner: {
+    flex: 1,
+    backgroundColor: "white",
+  },
+});
